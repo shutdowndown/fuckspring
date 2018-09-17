@@ -4,7 +4,7 @@ import com.example.fuckspring.enums.ResultEnum;
 import com.example.fuckspring.exception.SellException;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
-import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class WechatController {
         //1.配置
         //2.调用方法
         String url = "http://fixed.natapp1.cc/sell/rechat/userInfo";
-        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url,WxConsts.OAuth2Scope.SNSAPI_USERINFO, URLEncoder.encode(returnUrl));
+        String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url,WxConsts.OAUTH2_SCOPE_BASE, URLEncoder.encode(returnUrl));
         log.info("[微信网页授权] 获取code,result={}",redirectUrl);
         return "redirect:" + redirectUrl;
     }
