@@ -5,8 +5,7 @@ import lombok.Data;
 
 /**
  *http请求返回的最外层对象
- *
- * **/
+ */
 
 
 @Data
