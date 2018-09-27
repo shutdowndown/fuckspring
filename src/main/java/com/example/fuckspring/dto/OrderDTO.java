@@ -1,12 +1,15 @@
 package com.example.fuckspring.dto;
 
 import com.example.fuckspring.dataobject.OrderDetail;
+import com.example.fuckspring.enums.OrderStatusEnum;
+import com.example.fuckspring.enums.PayStatusEnum;
+import com.example.fuckspring.utils.EnumUtil;
 import com.example.fuckspring.utils.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,4 +58,15 @@ public class OrderDTO {
     private Date updateTime;
 
     private List<OrderDetail> orderDetailList;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum() {
+        return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+    }
+
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum() {
+        return EnumUtil.getByCode(payStatus, PayStatusEnum.class);
+    }
+
 }

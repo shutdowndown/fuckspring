@@ -1,10 +1,14 @@
 package com.example.fuckspring.dataobject;
 
+import com.example.fuckspring.enums.ProductStatusEnum;
+import com.example.fuckspring.utils.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 商品
@@ -37,4 +41,13 @@ public class ProductInfo {
 
     //类目编号
     private Integer categoryType;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    @JsonIgnore
+    public ProductStatusEnum getProductStatusEnum() {
+        return EnumUtil.getByCode(productStatus, ProductStatusEnum.class);
+    }
 }

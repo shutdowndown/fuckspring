@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -56,5 +55,17 @@ public class ProductServiceImpTest {
 
         ProductInfo res = productServiceImp.save(productInfo);
         Assert.assertNotNull(res);
+    }
+
+    @Test
+    public void onSale() {
+        ProductInfo result = productServiceImp.onSale("123456");
+        Assert.assertEquals(ProductStatusEnum.UP, result.getProductStatusEnum());
+    }
+
+    @Test
+    public void offSale() {
+        ProductInfo result = productServiceImp.offSale("123456");
+        Assert.assertEquals(ProductStatusEnum.DOWN, result.getProductStatusEnum());
     }
 }

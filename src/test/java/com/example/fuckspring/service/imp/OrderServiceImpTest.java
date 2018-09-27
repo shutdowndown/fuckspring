@@ -17,8 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
-
 /**
  * @ClassName OrderServiceImpTest
  * @Author Fixed
@@ -104,5 +102,13 @@ public class OrderServiceImpTest {
         OrderDTO orderDTO = orderService.findOne(ORDER_ID);
         OrderDTO result = orderService.paid(orderDTO);
         Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(),result.getPayStatus());
+    }
+
+    @Test
+    public void list() {
+        PageRequest request = new PageRequest(0,2);
+        Page<OrderDTO> orderDTOPage = orderService.findList(request);
+//        Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
+        Assert.assertTrue("查询所有的订单列表", orderDTOPage.getTotalElements() > 0);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.fuckspring.controller;
 
+import com.example.fuckspring.config.ProjectUrlConfig;
 import com.example.fuckspring.enums.ResultEnum;
 import com.example.fuckspring.exception.SellException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,12 @@ public class WechatController {
     @Autowired
     private WxMpService wxMpService;
 
+    @Autowired
+    private WxMpService wxOpenService;
+
+    @Autowired
+    private ProjectUrlConfig projectUrlConfig;
+
     @GetMapping("/authorize")
     public String authorize(@RequestParam("returnUrl") String returnUrl ){
         //1.配置
@@ -54,6 +61,22 @@ public class WechatController {
         String openid = wxMpOAuth2AccessToken.getOpenId();
 
         return "redirect:" + returnUrl + "?openid=" + openid;
+    }
+
+    @GetMapping("/qrUserInfo")
+    public String qrUserInfo(@RequestParam("code") String code,
+                             @RequestParam("state") String returnUrl) {
+        WxMpOAuth2AccessToken wxMpOAuth2AccessToken = new WxMpOAuth2AccessToken();
+        try {
+            wxMpOAuth2AccessToken = wxOpenService.oauth2getAccessToken(code);
+        } catch (WxErrorException e) {
+            log.error("【微信网页授权】{}", e);
+            throw new SellException(ResultEnum.WX_MP_ERROR.getCode(), e.getError().getErrorMsg());
+        }
+        log.info("wxMpOAuth2AccessToken={}", wxMpOAuth2AccessToken);
+        String openId = wxMpOAuth2AccessToken.getOpenId();
+
+        return "redirect:" + returnUrl + "?openid=" + openId;
     }
 
 }
